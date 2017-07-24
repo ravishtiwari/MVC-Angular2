@@ -1,0 +1,127 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<MasterDetail.Models.OrderItem>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+    
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/bootstrap")
+<script src="~/Scripts/ModalDialog.js"></script>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create", new {id = -1, OrderID= ViewBag.OrderID }, new { btnName = "btnCreateItem", @class = "btn btn-default btn-xs" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Product Name
+        </th>
+        <th>
+            Amount
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.OrderItemID }, new { btnName = "btnEditItem", @class = "btn btn-default btn-xs" })
+            @Html.ActionLink("Delete", "Delete", new { id = item.OrderItemID }, new { btnName = "btnDeleteItem", @class = "btn btn-default btn-xs" })
+
+        </td>
+    </tr>
+}
+
+</table>
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    <div id="OrderItemsPager">
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, OrderID = ViewBag.OrderID }))
+</div>
+<script type="text/javascript">
+
+    $(function () {
+        $.ajaxSetup({ cache: false });
+
+        setDialogLink($('a[btnName=btnCreateItem]'), 'Create Item', 500, 600, "detailFrame", "/OrderItems/Index?OrderID=@ViewBag.OrderID");
+        setDialogLink($('a[btnName=btnEditItem]'), 'Edit Item', 500, 600, "detailFrame", "/OrderItems/Index?OrderID=@ViewBag.OrderID");
+
+        $('a[btnName=btnDeleteItem]').click(function (e) {
+            e.preventDefault();
+            var confirmResult = confirm("Are you sure?");
+            if (confirmResult) {
+                $('#detailFrame').mask("waiting ...");
+
+                $.ajax(
+                    {
+                        url: this.href,
+                        type: 'POST',
+                        data: JSON.stringify({}),
+                        dataType: 'json',
+                        traditional: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data.success) {
+                                $('#detailFrame').load("/OrderItems/Index?OrderID=@ViewBag.OrderID");
+                            }
+                            else {
+
+                                alert(data.errormessage);
+                            }
+                            $('#detailFrame').unmask("waiting ...");
+
+                        },
+                        error: function (data) {
+                            alert("An error has occured!!!");
+                            $('#detailFrame').unmask("waiting ...");
+                        }
+
+                    });
+            }
+
+        })
+
+
+       
+
+
+
+
+        $('#OrderItemsPager').on('click', 'a', function (e) {
+            e.preventDefault();
+            $('#detailFrame').mask("waiting ...");
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#detailFrame').unmask("waiting ...");
+                    $('#detailFrame').html(result);
+
+                }
+            });
+
+        });
+
+    });
+
+
+
+
+
+
+
+</script>

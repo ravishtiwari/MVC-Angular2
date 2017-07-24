@@ -1,0 +1,82 @@
+﻿@model MasterDetail.Models.Order
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/bootstrap")
+<script src="~/Scripts/ModalDialog.js"></script>
+
+
+@using (Html.BeginForm("Edit", "Orders", FormMethod.Post, new { id = "CustomerForm" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Edit Order</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.OrderID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CustomerID, "CustomerID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CustomerID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+
+        <div id="detailFrame">
+            @{Html.RenderAction("Index", "OrderItems",new {OrderID = Model.OrderID});}
+        </div>
+
+
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        $('#CustomerForm').submit(function () {
+            $.ajaxSetup({ cache: false })
+            if (!$(this).valid())
+                return false;
+            $('#contentFrame').mask("waiting ...");
+
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $("#navigation").load("/Orders/Index");
+                        //$("#contentFrame").load("/Orders/Edit");
+                        $('#contentFrame').unmask("waiting ...");
+                    } else {
+                        //????????????????
+                    }
+                }
+            });
+            return false;
+        });
+
+    });
+
+</script>
