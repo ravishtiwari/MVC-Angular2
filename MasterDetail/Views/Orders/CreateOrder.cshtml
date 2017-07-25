@@ -1,7 +1,10 @@
-﻿<form action="/Orders/Create" id="CustomerForm" method="post">
+﻿@{
+    string y = "Hello";
+}
+<form action="/Orders/Create" id="CustomerForm" method="post">
     <input name="__RequestVerificationToken" type="hidden" value="e44ZmZ2TDUt182ASVf6A3S4BkiCy7yg3Q8URaj2_PVfiFfoJucMlJeRwVAucS73CgKrEkquGxLYqwBcLyh3X1TV7gWVs_3utbFMdVRY1dpw1" />    
     <div class="form-horizontal">
-        <h4>Create Order</h4>
+        <h4>@y Create Order</h4>
         <hr />
         <h3>{{name}}</h3>
         <div class="form-group">
