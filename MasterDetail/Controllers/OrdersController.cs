@@ -46,6 +46,11 @@ namespace MasterDetail.Controllers
             ViewBag.CustomerID = new SelectList(db.Customers, "CustomerID", "CustomerName");
             return PartialView();
         }
+        
+        public ActionResult CreateOrder()
+        {
+            return PartialView();
+        }
 
         // POST: Orders/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

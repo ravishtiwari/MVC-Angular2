@@ -69,6 +69,8 @@ artifacts/
 *.svclog
 *.scc
 
+MasterDetail/app/*.js
+*.js.map
 # Chutzpah Test files
 _Chutzpah*
 

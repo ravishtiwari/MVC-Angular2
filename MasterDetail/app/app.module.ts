@@ -1,14 +1,13 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-import { TestAppComponent }  from './app.testcomponent';
 import { CreateOrder } from './app.createordercomponent';
 
 
 @NgModule({
-  imports:      [ BrowserModule ],
-  declarations: [AppComponent, TestAppComponent, CreateOrder],
-  bootstrap: [CreateOrder, TestAppComponent ]
+    imports: [BrowserModule, FormsModule],
+  declarations: [AppComponent, CreateOrder],
+  bootstrap: [CreateOrder ]
 })
 export class AppModule { }

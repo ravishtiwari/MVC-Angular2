@@ -1,1 +1,0 @@
-{"version":3,"file":"app.createordercomponent.js","sourceRoot":"","sources":["app.createordercomponent.ts"],"names":[],"mappings":";;;;;;AAAA,sCAA0C;AAqC1C,IAAa,WAAW;IAnCxB;QAmC2B,SAAI,GAAG,SAAS,CAAC;IAAC,CAAC;IAAD,kBAAC;AAAD,CAAC,AAA9C,IAA8C;AAAjC,WAAW;IAnCvB,gBAAS,CAAC;QACP,QAAQ,EAAE,iBAAiB;QAC3B,QAAQ,EAAE,orDA+Bb;KACA,CAAC;GACW,WAAW,CAAsB;AAAjC,kCAAW"}
